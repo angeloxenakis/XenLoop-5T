@@ -1,0 +1,298 @@
+.App {
+
+}
+
+body {
+  background: #222222;
+}
+
+.container {
+  width: 96%;
+  margin: auto;
+}
+
+.main-panel {
+  color: white;
+  background-color: black;
+  border: 8px solid #444444;
+  border-radius: 16px;
+}
+
+.main-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.master-vol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px;
+  font-size: 16px;
+}
+
+.master-vol p {
+  margin: 8px 0px 0px 0px;
+}
+
+.main-info {
+  padding: 8px 8px 0px 8px;
+  margin: 8px 8px 0px 8px;
+}
+
+hr {
+  border: 2px solid #444444;
+  border-radius: 2px;
+  margin: 0px;
+}
+
+h1 {
+  margin: 20px 0px 16px 0px;
+  font-family: 'Bebas Neue', cursive;
+  font-size: 48px;
+}
+
+.xenloop-title {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.xenloop-title::after {
+  content: '';
+  flex: 1;
+  border-bottom: 4px solid #444444;
+  border-radius: 2px;
+  margin-left: 16px;
+}
+
+h3 { 
+  margin: 18px 0px 18px 0px;
+}
+
+.track-number {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.track-number::after {
+  content: '';
+  flex: 1;
+  border-bottom: 4px solid #444444;
+  border-radius: 2px;
+  margin: 0px 0px 15px 16px;
+}
+
+.track-section {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+.track-section::after {
+  content: '';
+  flex: 1;
+  border-bottom: 4px solid #444444;
+  border-radius: 2px;
+  margin: 12px 0px 0px 16px;
+}
+
+.project-title {
+  font-size: 24px;
+  color: rgb(165, 255, 123);
+  font-family: 'VT323', monospace;
+  display: flex;
+  align-items: center;
+  width: 300px;
+  background-color: #27325B;
+  padding: 8px;
+  border: 2px solid white;
+  border-radius: 8px;
+  margin-top: 16px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3)
+}
+
+.ctrl-line-1 {
+  margin-bottom: 40px;
+}
+
+.main-btns {
+  margin-top: 10px;
+  font-size: 12px;
+  display: flex;
+}
+
+.main-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px;
+}
+
+.master-rev {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-right: 16px;
+}
+
+.master-rev p {
+  margin: 0px;
+}
+
+.master-rev hr {
+  width: 96px;
+  margin-bottom: 2px;
+}
+
+.master-rev-toggle {
+  height: 16px;
+  width: 36px;
+  background-color: #007FC7;
+  border: 3px solid white;
+  border-radius: 16px;
+}
+
+.effect-toggle {
+  height: 8px;
+  width: 20px;
+  background-color: #007FC7;
+  border: 3px solid white;
+  border-radius: 16px;
+  margin-top: 14px;
+  margin: 14px 0px 4px 0px;
+}
+
+.large-knob {
+  height: 104px;
+  width: 104px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background-color: #333333;
+  box-shadow: inset 0 -8px 0 rgba(0, 0, 0, 0.5)
+}
+
+.medium-knob {
+  height: 64px;
+  width: 64px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background-color: #333333;
+  box-shadow: inset 0 -6px 0 rgba(0, 0, 0, 0.5)
+}
+
+.small-knob {
+  height: 36px;
+  width: 36px;
+  border: 3px solid white;
+  border-radius: 50%;
+  background-color: #333333;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.5)
+}
+
+.effect-knobs {
+  display: flex;
+  justify-content: center;
+}
+
+.track-volume {
+  font-size: 12px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.track-effect {
+  font-size: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tracks {
+  display:flex;
+  padding: 16px;
+  justify-content: space-between;
+}
+
+.track-panel {
+  background-color: black;
+  padding: 16px;
+  border: 8px solid #444444;
+  border-radius: 16px;
+  margin: 8px;
+}
+
+.track-header p {
+  margin: 0px;
+}
+
+.track-header h3 {
+  margin: 0px 0px 16px 0px;
+}
+
+.track-title {
+  color: rgb(165, 255, 123);
+  padding: 8px;
+  font-family: 'VT323', monospace;
+  background-color: #27325B;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3)
+}
+
+.medium-btns {
+  display: flex;
+  justify-content: space-between;
+}
+
+h4 {
+  font-weight: normal;
+  font-size: 16px;
+  margin: 28px 0px 16px 0px;
+}
+
+.small-btn {
+  height: 38px;
+  width: 96px;
+  background-color: #333333;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.3)
+}
+
+.medium-btn {
+  height: 60px;
+  width: 44%;
+  background-color: #333333;
+  border: 2px solid white;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.3)
+}
+
+.large-btn {
+  height: 60px;
+  width: 98%;
+  background-color: #333333;
+  border: 2px solid white;
+  border-radius: 8px;
+  margin-top: 8px;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.3)
+}
+
+.controls {
+  margin-top: -24px;
+}
