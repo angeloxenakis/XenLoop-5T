@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import recordIcon from "../assets/record-icon.svg"
 import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
@@ -6,16 +6,25 @@ import playPauseIcon from "../assets/play-pause-icon.svg"
 
 
 export function TrackPanel(props) {
+    let [ mediaRecorder, toggleRecord ] = useState(false)
+    let [ trackAudio , updateAudio ] = useState(new Audio)
 
-    let trackAudio = new Audio
-    
     let record = () => {
+        if (mediaRecorder.state == "recording") {
+            mediaRecorder.stop()
+            console.log("Stopped recording")
+        } else {
+            mediaRecorder.start()
+            console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
+        }
+    }
+    
+    useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
             const mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.start();
 
-            console.log("...recording audio")
+            toggleRecord(mediaRecorder)
 
             const audioChunks = [];
             mediaRecorder.addEventListener("dataavailable", event => {
@@ -27,28 +36,19 @@ export function TrackPanel(props) {
                 const audioUrl = URL.createObjectURL(audioBlob);
                 console.log(audioUrl)
                 trackAudio = new Audio(audioUrl);
-                trackAudio.play();
+                updateAudio(new Audio(audioUrl))
 
             });
-
-            setTimeout(() => {
-                mediaRecorder.stop();
-                console.log("recording stopped")
-            }, 4000);
         });
-    }
+    }, [])
 
     let play = () => {
-        trackAudio.addEventListener('ended', function () {
-            trackAudio.currentTime = 0;
-            trackAudio.play();
-          }, false);
-        //   this.togglePlay = this.togglePlay.bind(this);
+        trackAudio.play();
         console.log("Playing track audio")
     }
 
     let clearTrack = () => {
-        trackAudio = new Audio
+        trackAudio = new Audio()
         console.log("Track audio cleared")
     }
 
