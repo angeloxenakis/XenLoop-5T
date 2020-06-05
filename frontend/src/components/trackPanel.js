@@ -8,6 +8,7 @@ import playPauseIcon from "../assets/play-pause-icon.svg"
 export function TrackPanel(props) {
     let [ mediaRecorder, toggleRecord ] = useState(false)
     let [ trackAudio , updateAudio ] = useState(new Audio)
+    let [ trackVolume , adjustVolume ] = useState(0.5)
 
     let record = () => {
         if (mediaRecorder.state == "recording") {
@@ -35,14 +36,17 @@ export function TrackPanel(props) {
                 const audioBlob = new Blob(audioChunks);
                 const audioUrl = URL.createObjectURL(audioBlob);
                 console.log(audioUrl)
-                trackAudio = new Audio(audioUrl);
                 updateAudio(new Audio(audioUrl))
+                
+
 
             });
         });
     }, [])
 
     let play = () => {
+        trackAudio.volume = trackVolume;
+        console.log(trackAudio.volume)
         trackAudio.play();
         console.log("Playing track audio")
     }

@@ -19,6 +19,7 @@ body {
 }
 
 .main-info {
+  flex-wrap: wrap;
   display: flex;
   justify-content: space-between;
 }
@@ -223,6 +224,7 @@ h3 {
 
 .tracks {
   display:flex;
+  flex-wrap: wrap;
   padding: 16px;
   justify-content: space-between;
 }
