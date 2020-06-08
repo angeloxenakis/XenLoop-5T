@@ -23,25 +23,22 @@ export function TrackPanel(props) {
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
-            const mediaRecorder = new MediaRecorder(stream);
+                const mediaRecorder = new MediaRecorder(stream);
 
-            toggleRecord(mediaRecorder)
+                toggleRecord(mediaRecorder)
 
-            const audioChunks = [];
-            mediaRecorder.addEventListener("dataavailable", event => {
-                audioChunks.push(event.data);
+                const audioChunks = [];
+                mediaRecorder.addEventListener("dataavailable", event => {
+                    audioChunks.push(event.data);
+                });
+
+                mediaRecorder.addEventListener("stop", () => {
+                    const audioBlob = new Blob(audioChunks);
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    console.log(audioUrl)
+                    updateAudio(new Audio(audioUrl))
+                });
             });
-
-            mediaRecorder.addEventListener("stop", () => {
-                const audioBlob = new Blob(audioChunks);
-                const audioUrl = URL.createObjectURL(audioBlob);
-                console.log(audioUrl)
-                updateAudio(new Audio(audioUrl))
-                
-
-
-            });
-        });
     }, [])
 
     let play = () => {
