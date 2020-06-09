@@ -27,8 +27,6 @@ export function MainPanel() {
         }
     ]
 
-    let i = 0
-
     return (
         <div className="container">
             <div className="main-panel">

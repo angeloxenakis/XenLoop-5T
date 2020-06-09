@@ -6,9 +6,25 @@ import playPauseIcon from "../assets/play-pause-icon.svg"
 
 
 export function TrackPanel(props) {
-    let context = new AudioContext();
+    const output = ctx.createGain();
+    const mixIn = ctx.createGain();
+    const volume = ctx.createGain();
+
+    const streamer = ctx.createMediaStreamDestination();
+    const recorder = new MediaRecorder(streamer.stream);
+    const audio = document.createElement('audio');
+    let [ empty, changeEmpty ] = useState('empty')
+    let [ recording, changeRecording ] = useState('recording')
+    let [ prepared, changePrepared ] = useState('prepared')
+    let [ idle, changeIdle ] = useState('idle')
+    let [ cease, changeCease ] = useState('cease')
+    let recordHead = empty;
+
+
+
     let [ mediaRecorder, toggleRecord ] = useState(false)
-    let [ trackAudio , updateAudio ] = useState([new Audio])
+    let [ playStatus , togglePlay ] = useState(false)
+    let [ trackAudio , updateAudio ] = useState(new Audio)
     let [ trackVolume , adjustVolume ] = useState(0.5)
 
     let record = () => {
@@ -24,7 +40,7 @@ export function TrackPanel(props) {
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
-                let mediaRecorder = new MediaRecorder(stream);
+                const mediaRecorder = new MediaRecorder(stream);
 
                 toggleRecord(mediaRecorder)
 
@@ -42,16 +58,22 @@ export function TrackPanel(props) {
             });
     }, [])
 
-    let play = () => {
-        trackAudio.volume = trackVolume;
-        console.log(trackAudio.volume)
+    let playTrack = () => {
+        console.log(`Playing Track ${props.trackNum} Audio`)
         trackAudio.play();
-        console.log("Playing track audio")
+    }
+
+    let pauseTrack = () => {
+        console.log(`Pausing Track ${props.trackNum} Audio`)
+        trackAudio.pause();
+    }
+
+    let play = () => {
+        trackAudio.loop = true;
     }
 
     let clearTrack = () => {
-        toggleRecord(false)
-        updateAudio(new Audio)
+        trackAudio = new Audio()
         console.log("Track audio cleared")
     }
 

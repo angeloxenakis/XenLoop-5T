@@ -1,0 +1,47 @@
+.metronome {
+  margin-top: 10px;
+  font-size: 12px;
+  display: flex;
+  color: white;
+}
+
+input[type=range][orient=vertical] {
+    writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 6px;
+    height: 44px;
+    background-color: #00CF21;
+}
+
+.bpm-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #4CAF90;
+  cursor: pointer;
+}
+
+.bpm-control {
+  display: flex;
+}
+
+.bpm-slider input {
+  width: 100%;
+  margin: 0px 16px 0px 16px;
+  background-color: #00CF21;
+}
+
+.bpm-title {
+  margin-right: 32px;
+}
+
+.metronome button {
+  background: #C94D46;
+  padding: 10px;
+  border: 1px solid #832420;
+  border-radius: 2px;
+  width: 100px;
+  color: #fff;
+  font-size: 18px;
+}

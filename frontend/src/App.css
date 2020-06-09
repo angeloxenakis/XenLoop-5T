@@ -19,6 +19,7 @@ body {
 }
 
 .main-info {
+  flex-wrap: wrap;
   display: flex;
   justify-content: space-between;
 }
@@ -116,7 +117,7 @@ h3 {
   padding: 8px;
   border: 2px solid white;
   border-radius: 8px;
-  margin-top: 16px;
+  margin-top: 26px;
   box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3)
 }
 
@@ -223,6 +224,7 @@ h3 {
 
 .tracks {
   display:flex;
+  flex-wrap: wrap;
   padding: 16px;
   justify-content: space-between;
 }
@@ -262,6 +264,10 @@ h4 {
   font-weight: normal;
   font-size: 16px;
   margin: 28px 0px 16px 0px;
+}
+
+.ctrl-title {
+  margin-top: 22px;
 }
 
 .bpm-input {
@@ -319,4 +325,31 @@ h4 {
 
 .controls {
   margin-top: -24px;
+}
+
+.about {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+  color: white;
+}
+
+.about-text {
+  font-size: 20px;
+  width: 200px;
+  padding: 0px 16px 16px 0px;
+  width: 30%;
+  border-right: 1px solid white;
+  margin-right: 32px;
+}
+
+.about-text h1 {
+  font-size: 72px;
+}
+
+.hero {
+  height: 390px;
+  width: 50%;
+  background-image: url('./assets/xenloop-hero.png');
+  background-size: contain;
 }
