@@ -106,6 +106,12 @@ h3 {
   margin: 12px 0px 0px 16px;
 }
 
+.about-container {
+  width: 90%;
+  margin: auto;
+  background-color: black;
+}
+
 .project-title {
   font-size: 24px;
   color: rgb(165, 255, 123);
@@ -328,28 +334,59 @@ h4 {
 }
 
 .about {
+  margin:auto;
+  margin-top: 56px;
+  width: 80%;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 48px;
   color: white;
 }
 
-.about-text {
-  font-size: 20px;
+.about-text-left {
+  font-size: 16px;
   width: 200px;
   padding: 0px 16px 16px 0px;
-  width: 30%;
+  width: 50%;
   border-right: 1px solid white;
   margin-right: 32px;
 }
+.about img {
+  margin: auto;
+  }
 
-.about-text h1 {
-  font-size: 72px;
+.about-text-right {
+  font-size: 16px;
+  width: 200px;
+  padding: 0px 0px 16px 40px;
+  width: 40%;
+  border-left: 1px solid white;
+  margin-left: 32px;
+}
+
+.hero-text {
+  width: 60%;
+  text-align: center;
+  margin: auto;
+  margin-top: 0px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  color: white;
+}
+
+.hero-text h1 {
+  font-size: 64px;
+}
+
+.about h3 {
+  font-size: 48px;
+  font-family: 'Bebas Neue', cursive;
 }
 
 .hero {
-  height: 390px;
-  width: 50%;
-  background-image: url('./assets/xenloop-hero.png');
-  background-size: contain;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  margin-bottom: 48px;
 }
