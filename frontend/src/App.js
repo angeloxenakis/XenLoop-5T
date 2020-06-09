@@ -4,6 +4,7 @@ import { Route } from 'react-router';
 import './App.css';
 import { MainPanel } from './components/mainPanel'
 import { About } from './components/about'
+import Metronome from './components/Metronome'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <BrowserRouter>
         <Route exact path="/" component={MainPanel}/>
         <Route path="/about" component={About}/>
+        <Route path="/metronome" component={Metronome}/>
       </BrowserRouter>
     </div>
   );
