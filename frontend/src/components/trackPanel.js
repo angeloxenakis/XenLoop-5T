@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import recordIcon from "../assets/record-icon.svg"
 import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
+import { render } from "react-dom";
+import { Knob } from "react-rotary-knob";
 
 export function TrackPanel(props) {
     let context = new AudioContext();
@@ -9,6 +11,7 @@ export function TrackPanel(props) {
     let [ trackAudio , updateAudio ] = useState([new Audio])
     let [ trackVolume , adjustVolume ] = useState(0.5)
     let [ recBtnColor, recBtnChange ] = useState("medium-btn")
+    let [ playStatus, setPlayStatus ] = useState(true)
     let [ playBtnColor, playBtnChange ] = useState("large-btn")
 
     let record = () => {
@@ -45,16 +48,39 @@ export function TrackPanel(props) {
     }, [])
 
     let play = () => {
-        trackAudio.volume = trackVolume;
-        console.log(trackAudio.volume)
         trackAudio.play();
-        console.log("Playing track audio")
+    }
+
+    let pause = () => {
+        trackAudio.pause();
+    }
+
+    let playLoop = () => {
+        setPlayStatus(!playStatus)
+        console.log(playStatus)
+        trackAudio.addEventListener('ended', () => {
+            trackAudio.currentTime = 0;
+            play();
+        }, false)
+        play();
+        
+        // if (playStatus === true) {
+        //     while (playStatus === true) {
+        //         play();
+        //         console.log("Playing Audio")
+        //         play();
+        //     }
+        // } else {
+        //     pause();
+        //     console.log("Pausing Audio")
+        // }
 
         if (playBtnColor === "large-btn") {
             console.log(playBtnColor)
             playBtnChange("large-btn-green")
         } else {
             playBtnChange("large-btn")
+            pause();
         }
     }
 
@@ -76,16 +102,16 @@ export function TrackPanel(props) {
                 <div className="track-section"><h4>EFFECTS</h4></div>
                 <div className="effect-knobs">
                     <div className="track-volume">
-                        <div className="medium-knob"></div>
+                        <div className="medium-knob"><div className="medium-tick"></div></div>
                         <p>VOLUME</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"></div>
+                        <div className="small-knob"><div className="small-tick"></div></div>
                         <div className="effect-toggle"></div>
                         <p>REVERB</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"></div>
+                        <div className="small-knob"><div className="small-tick"></div></div>
                         <div className="effect-toggle"></div>
                         <p>DELAY</p>
                     </div>
@@ -97,7 +123,7 @@ export function TrackPanel(props) {
                     <div className={recBtnColor} onClick={record}><img className="record-icon" src={recordIcon}/></div>
                     <div className="medium-btn" onClick={clearTrack}><img height="24px" src={clearIcon}/></div>
                 </div>
-                <div className={playBtnColor} onClick={play}><img height="28px" src={playPauseIcon}/></div>
+                <div className={playBtnColor} onClick={playLoop}><img height="28px" src={playPauseIcon}/></div>
             </div>
         </div>
     )
