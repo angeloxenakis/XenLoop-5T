@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import recordIcon from "../assets/record-icon.svg"
 import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
+import { render } from "react-dom";
+import { Knob } from "react-rotary-knob";
 
 export function TrackPanel(props) {
     let context = new AudioContext();
@@ -100,16 +102,16 @@ export function TrackPanel(props) {
                 <div className="track-section"><h4>EFFECTS</h4></div>
                 <div className="effect-knobs">
                     <div className="track-volume">
-                        <div className="medium-knob"></div>
+                        <div className="medium-knob"><div className="medium-tick"></div></div>
                         <p>VOLUME</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"></div>
+                        <div className="small-knob"><div className="small-tick"></div></div>
                         <div className="effect-toggle"></div>
                         <p>REVERB</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"></div>
+                        <div className="small-knob"><div className="small-tick"></div></div>
                         <div className="effect-toggle"></div>
                         <p>DELAY</p>
                     </div>

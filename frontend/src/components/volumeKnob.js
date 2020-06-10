@@ -29,7 +29,8 @@ function setAngle() {
     '-webkit-transform':'rotate('+angle+'deg)',
     '-o-transform':'rotate('+angle+'deg)',
     '-ms-transform':'rotate('+angle+'deg)',
-    'transform':'rotate('+angle+'deg)'
+    'transform':'rotate('+angle+'deg)',
+    width: "500px"
   });
   
   // highlight ticks

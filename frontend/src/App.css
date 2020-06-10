@@ -3,18 +3,56 @@
 }
 
 body {
-  background: #222222;
+  background: #111111;
+}
+
+.header {
+  width: 100%;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  padding: 8px 8px 8px 16px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.nav {
+  display: flex;
+}
+
+.login { 
+  margin-right: 32px;
+}
+
+.header h5 {
+  font-size: 14px;
+  margin: 0px 16px 0px 16px;
+}
+
+.header p {
+  font-size: 14px;
+  margin: 0px 16px 0px 16px;
+}
+
+.header a {
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+  margin: 0px 16px 0px 16px;
 }
 
 .container {
   width: 96%;
   margin: auto;
+  padding-top: 56px;
 }
 
 .main-panel {
   color: white;
   background-color: black;
   border: 8px solid #444444;
+  border-bottom: 12px solid #444444;
   border-radius: 16px;
 }
 
@@ -180,6 +218,30 @@ h3 {
   margin: 14px 0px 4px 0px;
 }
 
+.small-tick {
+  margin:auto;
+  height: 12px;
+  width: 4px;
+  border-radius: 0px 0px 8px 8px;
+  background-color: white;
+}
+
+.medium-tick {
+  margin:auto;
+  height: 20px;
+  width: 4px;
+  border-radius: 0px 0px 8px 8px;
+  background-color: white;
+}
+
+.large-tick {
+  margin:auto;
+  height: 30px;
+  width: 4px;
+  border-radius: 0px 0px 8px 8px;
+  background-color: white;
+}
+
 .large-knob {
   height: 104px;
   width: 104px;
@@ -239,6 +301,7 @@ h3 {
   background-color: black;
   padding: 16px;
   border: 8px solid #444444;
+  border-bottom: 16px solid #444444;
   border-radius: 16px;
   margin: 8px;
 }

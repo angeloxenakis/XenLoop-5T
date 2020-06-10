@@ -5,6 +5,7 @@ import metroIcon from "../assets/metro-icon.svg"
 import  click1 from "../assets/click1.wav"
 import click2 from "../assets/click2.wav"
 import Metronome from './Metronome'
+import { Knob } from "react-rotary-knob";
 
 
 export function MainInfo() {
@@ -62,7 +63,7 @@ export function MainInfo() {
     return (
         <div className="main-info">
             <div className="master-vol">
-                <div className="large-knob"></div>
+                <div className="large-knob"><div className="large-tick"></div></div>
                 <div className="master-vol-title"><p>MASTER VOLUME</p></div>
             </div>
             <div className="master-title">
@@ -93,7 +94,7 @@ export function MainInfo() {
                 <div>
                     <hr></hr>
                 </div>
-                <div className="medium-knob"></div>
+                <div className="medium-knob"><div className="tick"></div></div>
                 <div className="master-rev-toggle"></div>
                 <div className="master-rev-title"><p>MASTER REVERB</p></div>
             </div>
