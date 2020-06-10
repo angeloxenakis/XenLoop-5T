@@ -14,7 +14,8 @@ class Metronome extends Component {
       playing: false,
       count: 0,
       bpm: 120,
-      beatsPerMeasure: 4
+      beatsPerMeasure: 4,
+      buttonClass: "small-btn"
     };
 
     // Create Audio objects with the files Webpack loaded,
@@ -44,14 +45,16 @@ class Metronome extends Component {
       // Stop the timer
       clearInterval(this.timer);
       this.setState({
-        playing: false
+        playing: false,
+        buttonClass: "small-btn"
       });
     } else {
       // Start a timer with the current BPM
       this.timer = setInterval(this.playClick, (60 / this.state.bpm) * 1000);
       this.setState({
         count: 0,
-        playing: true
+        playing: true,
+        buttonClass: "small-btn-green"
         // Play a click "immediately" (after setState finishes)
       }, this.playClick);
     }
@@ -74,7 +77,6 @@ class Metronome extends Component {
       // Otherwise just update the BPM
       this.setState({ bpm });
     }
-
   }
 
   render() {
@@ -85,7 +87,7 @@ class Metronome extends Component {
 
         <div className="main-control">
             <p>METRONOME</p>
-            <div className="small-btn" onClick={this.startStop}><img height="18px" src={metroIcon}/></div>
+            <div className={this.state.buttonClass} onClick={this.startStop}><img height="18px" src={metroIcon}/></div>
         </div>
         <div className="main-control">
             <p className="bpm-title">BPM:</p>

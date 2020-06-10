@@ -3,21 +3,23 @@ import recordIcon from "../assets/record-icon.svg"
 import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
 
-
-
 export function TrackPanel(props) {
     let context = new AudioContext();
     let [ mediaRecorder, toggleRecord ] = useState(false)
     let [ trackAudio , updateAudio ] = useState([new Audio])
     let [ trackVolume , adjustVolume ] = useState(0.5)
+    let [ recBtnColor, recBtnChange ] = useState("medium-btn")
+    let [ playBtnColor, playBtnChange ] = useState("large-btn")
 
     let record = () => {
         if (mediaRecorder.state == "recording") {
             mediaRecorder.stop()
             console.log("Stopped recording")
+            recBtnChange("medium-btn")
         } else {
             mediaRecorder.start()
             console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
+            recBtnChange("medium-btn-red")
         }
     }
     
@@ -47,6 +49,13 @@ export function TrackPanel(props) {
         console.log(trackAudio.volume)
         trackAudio.play();
         console.log("Playing track audio")
+
+        if (playBtnColor === "large-btn") {
+            console.log(playBtnColor)
+            playBtnChange("large-btn-green")
+        } else {
+            playBtnChange("large-btn")
+        }
     }
 
     let clearTrack = () => {
@@ -85,10 +94,10 @@ export function TrackPanel(props) {
             <div className="controls">
                 <div className="track-section"><h4>CONTROLS</h4></div>
                 <div className="medium-btns">
-                    <div className="medium-btn" onClick={record}><img src={recordIcon}/></div>
+                    <div className={recBtnColor} onClick={record}><img className="record-icon" src={recordIcon}/></div>
                     <div className="medium-btn" onClick={clearTrack}><img height="24px" src={clearIcon}/></div>
                 </div>
-                <div className="large-btn" onClick={play}><img height="28px" src={playPauseIcon}/></div>
+                <div className={playBtnColor} onClick={play}><img height="28px" src={playPauseIcon}/></div>
             </div>
         </div>
     )

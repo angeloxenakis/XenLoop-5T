@@ -13,9 +13,18 @@ export function MainInfo() {
     let [ bpm, setBpm ] = useState(120)
     let [ beatsPerMeasure, setFrequency ] = useState(4)
     let [ timer, setTimer ] = useState(0)
+    let [ playBtnColor, playBtnChange ] = useState("small-btn")
 
     let metroClick1 = new Audio(click1);
     let metroClick2 = new Audio(click2);
+
+    let play = () => {
+        if (playBtnColor == "small-btn") {
+            playBtnChange("small-btn-green")
+        } else {
+            playBtnChange("small-btn")
+        }
+    }
 
     let playClick = () => {
         console.log(playing)
@@ -71,7 +80,7 @@ export function MainInfo() {
                 <div className="main-btns">
                     <div className="main-control">
                         <p className="ctrl-title">PLAY/PAUSE</p>
-                        <div className="small-btn"><img height="15px" src={playPauseIcon}/></div>
+                        <div className={playBtnColor} onClick={play}><img height="15px" src={playPauseIcon}/></div>
                     </div>
                     <div className="main-control">
                         <p className="ctrl-title">CLEAR TRACKS</p>
