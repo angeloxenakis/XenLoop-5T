@@ -6,6 +6,7 @@ import  click1 from "../assets/click1.wav"
 import click2 from "../assets/click2.wav"
 import Metronome from './Metronome'
 import { Knob } from "react-rotary-knob";
+import Toggle from 'react-toggle'
 
 
 export function MainInfo() {
@@ -15,6 +16,7 @@ export function MainInfo() {
     let [ beatsPerMeasure, setFrequency ] = useState(4)
     let [ timer, setTimer ] = useState(0)
     let [ playBtnColor, playBtnChange ] = useState("small-btn")
+    let [ trackTime, setTrackTime ] = useState(2000)
 
     let metroClick1 = new Audio(click1);
     let metroClick2 = new Audio(click2);
@@ -26,6 +28,8 @@ export function MainInfo() {
             playBtnChange("small-btn")
         }
     }
+
+    // console.log(trackTime)
 
     let playClick = () => {
         console.log(playing)
@@ -87,15 +91,18 @@ export function MainInfo() {
                         <p className="ctrl-title">CLEAR TRACKS</p>
                         <div className="small-btn"><img height="18px" src={clearIcon}/></div>
                     </div>
-                    <Metronome/>
+                    <Metronome trackTime={trackTime} setTrackTime={setTrackTime}/>
                 </div>
             </div>
             <div className="master-rev">
                 <div>
                     <hr></hr>
                 </div>
-                <div className="medium-knob"><div className="tick"></div></div>
-                <div className="master-rev-toggle"></div>
+                <div className="medium-knob"><div className="medium-tick"></div></div>
+                <Toggle icons={false}/>
+                    {/* defaultChecked={this.state.tofuIsReady}
+                    icons={false}
+                    onChange={this.handleTofuChange} /> */}
                 <div className="master-rev-title"><p>MASTER REVERB</p></div>
             </div>
         </div>
