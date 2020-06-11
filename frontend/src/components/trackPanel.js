@@ -24,6 +24,12 @@ export function TrackPanel(props) {
             mediaRecorder.start()
             console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
             recBtnChange("medium-btn-red")
+            setTimeout(() => {
+                mediaRecorder.stop();
+                recBtnChange("medium-btn");
+                console.log("Stopped recording")
+                console.log(`Track duration: ${props.trackTime}`)
+            }, props.trackTime);
         }
     }
 
@@ -45,6 +51,7 @@ export function TrackPanel(props) {
                     const audioBlob = new Blob(audioChunks);
                     const audioUrl = URL.createObjectURL(audioBlob);
                     console.log(audioUrl)
+                    console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
                     updateAudio(new Audio(audioUrl))
                 });
             });
