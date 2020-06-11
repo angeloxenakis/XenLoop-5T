@@ -15,6 +15,7 @@ class Metronome extends Component {
       count: 0,
       bpm: 120,
       beatsPerMeasure: 4,
+      // trackTime: 0,
       buttonClass: "small-btn"
     };
 
@@ -60,8 +61,10 @@ class Metronome extends Component {
     }
   }
 
-  handleBpmChange = event => {
+  handleBpmChange = (event, props) => {
     const bpm = event.target.value;
+    let divideBy = (this.state.bpm / 4)
+    this.props.setTrackTime((60 / divideBy) * 1000)
 
     if(this.state.playing) {
       // Stop the old timer and start a new one
@@ -71,13 +74,15 @@ class Metronome extends Component {
       // Set the new BPM, and reset the beat counter
       this.setState({
         count: 0,
-        bpm
+        bpm,
       });
     } else {
       // Otherwise just update the BPM
       this.setState({ bpm });
     }
   }
+
+  
 
   render() {
     const { playing, bpm } = this.state;

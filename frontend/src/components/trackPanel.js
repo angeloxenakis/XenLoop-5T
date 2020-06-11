@@ -4,6 +4,7 @@ import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
 import { render } from "react-dom";
 import { Knob } from "react-rotary-knob";
+import Toggle from 'react-toggle'
 
 export function TrackPanel(props) {
     let context = new AudioContext();
@@ -25,6 +26,8 @@ export function TrackPanel(props) {
             recBtnChange("medium-btn-red")
         }
     }
+
+    let audioCtx = new window.AudioContext();
     
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -107,12 +110,12 @@ export function TrackPanel(props) {
                     </div>
                     <div className="track-effect">
                         <div className="small-knob"><div className="small-tick"></div></div>
-                        <div className="effect-toggle"></div>
+                        <Toggle className="reverb-toggle" icons={false}/>
                         <p>REVERB</p>
                     </div>
                     <div className="track-effect">
                         <div className="small-knob"><div className="small-tick"></div></div>
-                        <div className="effect-toggle"></div>
+                        <Toggle className="delay-toggle" icons={false}/>
                         <p>DELAY</p>
                     </div>
                 </div>
