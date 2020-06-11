@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { MainInfo } from './mainInfo'
 import { Tracks } from './tracks'
 
 export function MainPanel() {
+
+    let [ trackTime, setTrackTime ] = useState(2000)
+
+    console.log(trackTime)
 
     let fakeDatabase = [
         {
@@ -31,8 +35,8 @@ export function MainPanel() {
         <div className="container">
             <div className="main-panel">
                 <div className="main-container">
-                    <MainInfo/>
-                    <Tracks tracks={fakeDatabase}/>
+                    <MainInfo setTrackTime={setTrackTime}/>
+                    <Tracks tracks={fakeDatabase} trackTime={trackTime}/>
                 </div>
             </div>
         </div>

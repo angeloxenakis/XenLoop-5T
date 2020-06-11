@@ -9,14 +9,13 @@ import { Knob } from "react-rotary-knob";
 import Toggle from 'react-toggle'
 
 
-export function MainInfo() {
+export function MainInfo(props) {
     let [ playing, togglePlay ] = useState(false)
     let [ count, setCount ] = useState(0)
     let [ bpm, setBpm ] = useState(120)
     let [ beatsPerMeasure, setFrequency ] = useState(4)
     let [ timer, setTimer ] = useState(0)
     let [ playBtnColor, playBtnChange ] = useState("small-btn")
-    let [ trackTime, setTrackTime ] = useState(2000)
 
     let metroClick1 = new Audio(click1);
     let metroClick2 = new Audio(click2);
@@ -91,7 +90,7 @@ export function MainInfo() {
                         <p className="ctrl-title">CLEAR TRACKS</p>
                         <div className="small-btn"><img height="18px" src={clearIcon}/></div>
                     </div>
-                    <Metronome trackTime={trackTime} setTrackTime={setTrackTime}/>
+                    <Metronome setTrackTime={props.setTrackTime}/>
                 </div>
             </div>
             <div className="master-rev">
