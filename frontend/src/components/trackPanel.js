@@ -2,18 +2,26 @@ import React, { useEffect, useState } from 'react';
 import recordIcon from "../assets/record-icon.svg"
 import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
-import { render } from "react-dom";
-import { Knob } from "react-rotary-knob";
 import Toggle from 'react-toggle'
 
 export function TrackPanel(props) {
-    let context = new AudioContext();
     let [ mediaRecorder, toggleRecord ] = useState(false)
     let [ trackAudio , updateAudio ] = useState([new Audio])
     let [ trackVolume , adjustVolume ] = useState(0.5)
     let [ recBtnColor, recBtnChange ] = useState("medium-btn")
     let [ playStatus, setPlayStatus ] = useState(true)
     let [ playBtnColor, playBtnChange ] = useState("large-btn")
+
+    let audioCtx = new window.AudioContext();
+    let convolver = audioCtx.createConvolver();
+
+    let createReverb = () => {
+        console.log("Reverb Activated")
+        let buffer = audioCtx.createBuffer(2, audioCtx.sampleRate * 3, audioCtx.sampleRate)
+        console.log(buffer)
+        // arrayBuffer.connect(convolver)
+        convolver.connect(audioCtx.destination)
+    }
 
     let record = () => {
         if (mediaRecorder.state == "recording") {
@@ -33,7 +41,7 @@ export function TrackPanel(props) {
         }
     }
 
-    let audioCtx = new window.AudioContext();
+
     
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -59,6 +67,7 @@ export function TrackPanel(props) {
 
     let play = () => {
         trackAudio.play();
+        console.log(trackAudio)
     }
 
     let pause = () => {
@@ -117,7 +126,7 @@ export function TrackPanel(props) {
                     </div>
                     <div className="track-effect">
                         <div className="small-knob"><div className="small-tick"></div></div>
-                        <Toggle className="reverb-toggle" icons={false}/>
+                        <Toggle className="reverb-toggle" onChange={createReverb} icons={false}/>
                         <p>REVERB</p>
                     </div>
                     <div className="track-effect">

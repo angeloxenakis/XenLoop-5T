@@ -2,45 +2,43 @@ import React, { useEffect, useState } from 'react';
 import recordIcon from "../assets/record-icon.svg"
 import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
-
-
+import { render } from "react-dom";
+import { Knob } from "react-rotary-knob";
+import Toggle from 'react-toggle'
 
 export function TrackPanel(props) {
-    const output = ctx.createGain();
-    const mixIn = ctx.createGain();
-    const volume = ctx.createGain();
-
-    const streamer = ctx.createMediaStreamDestination();
-    const recorder = new MediaRecorder(streamer.stream);
-    const audio = document.createElement('audio');
-    let [ empty, changeEmpty ] = useState('empty')
-    let [ recording, changeRecording ] = useState('recording')
-    let [ prepared, changePrepared ] = useState('prepared')
-    let [ idle, changeIdle ] = useState('idle')
-    let [ cease, changeCease ] = useState('cease')
-    let recordHead = empty;
-
-
-
+    let context = new AudioContext();
     let [ mediaRecorder, toggleRecord ] = useState(false)
-    let [ playStatus , togglePlay ] = useState(false)
-    let [ trackAudio , updateAudio ] = useState(new Audio)
+    let [ trackAudio , updateAudio ] = useState([new Audio])
     let [ trackVolume , adjustVolume ] = useState(0.5)
+    let [ recBtnColor, recBtnChange ] = useState("medium-btn")
+    let [ playStatus, setPlayStatus ] = useState(true)
+    let [ playBtnColor, playBtnChange ] = useState("large-btn")
 
     let record = () => {
         if (mediaRecorder.state == "recording") {
             mediaRecorder.stop()
             console.log("Stopped recording")
+            recBtnChange("medium-btn")
         } else {
             mediaRecorder.start()
             console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
+            recBtnChange("medium-btn-red")
+            setTimeout(() => {
+                mediaRecorder.stop();
+                recBtnChange("medium-btn");
+                console.log("Stopped recording")
+                console.log(`Track duration: ${props.trackTime}`)
+            }, props.trackTime);
         }
     }
+
+    let audioCtx = new window.AudioContext();
     
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true })
             .then(stream => {
-                const mediaRecorder = new MediaRecorder(stream);
+                let mediaRecorder = new MediaRecorder(stream);
 
                 toggleRecord(mediaRecorder)
 
@@ -53,27 +51,52 @@ export function TrackPanel(props) {
                     const audioBlob = new Blob(audioChunks);
                     const audioUrl = URL.createObjectURL(audioBlob);
                     console.log(audioUrl)
+                    console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
                     updateAudio(new Audio(audioUrl))
                 });
             });
     }, [])
 
-    let playTrack = () => {
-        console.log(`Playing Track ${props.trackNum} Audio`)
+    let play = () => {
         trackAudio.play();
     }
 
-    let pauseTrack = () => {
-        console.log(`Pausing Track ${props.trackNum} Audio`)
+    let pause = () => {
         trackAudio.pause();
     }
 
-    let play = () => {
-        trackAudio.loop = true;
+    let playLoop = () => {
+        setPlayStatus(!playStatus)
+        console.log(playStatus)
+        trackAudio.addEventListener('ended', () => {
+            trackAudio.currentTime = 0;
+            play();
+        }, false)
+        play();
+        
+        // if (playStatus === true) {
+        //     while (playStatus === true) {
+        //         play();
+        //         console.log("Playing Audio")
+        //         play();
+        //     }
+        // } else {
+        //     pause();
+        //     console.log("Pausing Audio")
+        // }
+
+        if (playBtnColor === "large-btn") {
+            console.log(playBtnColor)
+            playBtnChange("large-btn-green")
+        } else {
+            playBtnChange("large-btn")
+            pause();
+        }
     }
 
     let clearTrack = () => {
-        trackAudio = new Audio()
+        toggleRecord(false)
+        updateAudio(new Audio)
         console.log("Track audio cleared")
     }
 
@@ -89,17 +112,17 @@ export function TrackPanel(props) {
                 <div className="track-section"><h4>EFFECTS</h4></div>
                 <div className="effect-knobs">
                     <div className="track-volume">
-                        <div className="medium-knob"></div>
+                        <div className="medium-knob"><div className="medium-tick"></div></div>
                         <p>VOLUME</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"></div>
-                        <div className="effect-toggle"></div>
+                        <div className="small-knob"><div className="small-tick"></div></div>
+                        <Toggle className="reverb-toggle" icons={false}/>
                         <p>REVERB</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"></div>
-                        <div className="effect-toggle"></div>
+                        <div className="small-knob"><div className="small-tick"></div></div>
+                        <Toggle className="delay-toggle" icons={false}/>
                         <p>DELAY</p>
                     </div>
                 </div>
@@ -107,10 +130,10 @@ export function TrackPanel(props) {
             <div className="controls">
                 <div className="track-section"><h4>CONTROLS</h4></div>
                 <div className="medium-btns">
-                    <div className="medium-btn" onClick={record}><img src={recordIcon}/></div>
+                    <div className={recBtnColor} onClick={record}><img className="record-icon" src={recordIcon}/></div>
                     <div className="medium-btn" onClick={clearTrack}><img height="24px" src={clearIcon}/></div>
                 </div>
-                <div className="large-btn" onClick={play}><img height="28px" src={playPauseIcon}/></div>
+                <div className={playBtnColor} onClick={playLoop}><img height="28px" src={playPauseIcon}/></div>
             </div>
         </div>
     )

@@ -23,6 +23,7 @@ export function MainInfo(props) {
     let play = () => {
         if (playBtnColor == "small-btn") {
             playBtnChange("small-btn-green")
+            props.playAll()
         } else {
             playBtnChange("small-btn")
         }
