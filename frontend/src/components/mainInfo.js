@@ -17,50 +17,14 @@ export function MainInfo(props) {
     let [ timer, setTimer ] = useState(0)
     let [ playBtnColor, playBtnChange ] = useState("small-btn")
 
-    let metroClick1 = new Audio(click1);
-    let metroClick2 = new Audio(click2);
-
     let play = () => {
         if (playBtnColor == "small-btn") {
             playBtnChange("small-btn-green")
+            props.playAll()
         } else {
             playBtnChange("small-btn")
         }
     }
-
-    // console.log(trackTime)
-
-    let playClick = () => {
-        console.log(playing)
-        // The first beat will have a different sound than the others
-        if(count % beatsPerMeasure === 0) {
-          metroClick2.play();
-        } else {
-          metroClick1.play();
-        }
-        // Keep track of which beat we're on
-        setCount(count + 1 % beatsPerMeasure)
-      }
-
-    let startStop = () => {
-        if (playing === true) {
-          // Stop the timer
-          clearInterval(timer);
-          togglePlay(false)
-        } else {
-          // Start a timer with the current BPM
-          let timer = () => {
-            setInterval(
-                playClick(),
-                (60 / bpm) * 1000
-              );
-          } 
-          timer();
-          setCount(0)
-          togglePlay(true)
-          playClick();
-        }
-      };
 
 
     return (

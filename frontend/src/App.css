@@ -147,7 +147,20 @@ h3 {
 .about-container {
   width: 90%;
   margin: auto;
-  background-color: black;
+  background-image: url('./assets/pedal.jpg');
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* .about-wallpaper {
+  height: 100%;
+  width: 90%;
+  margin:auto;
+  position: sticky;
+  background-image: url('./assets/pedal.jpg')
+} */
+
+.reverb-test {
+  padding-top: 50px;
 }
 
 .project-title {
