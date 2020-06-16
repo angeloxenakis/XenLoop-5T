@@ -11,10 +11,10 @@ class Metronome extends Component {
     super(props);
 
     this.state = {
-      playing: false,
+      playingClick: false,
       count: 0,
       bpm: 120,
-      beatsPerMeasure: 4,
+      beatsPerMeasure: 8,
       // trackTime: 0,
       buttonClass: "small-btn"
     };
@@ -29,7 +29,7 @@ class Metronome extends Component {
     const { count, beatsPerMeasure } = this.state;
 
     // The first beat will have a different sound than the others
-    if(count % beatsPerMeasure === 0) {
+    if(count % beatsPerMeasure === 0 || count % beatsPerMeasure === 4) {
       this.click2.play();
     } else {
       this.click1.play();
@@ -42,11 +42,11 @@ class Metronome extends Component {
   }
 
   startStop = () => {
-    if(this.state.playing) {
+    if(this.state.playingClick) {
       // Stop the timer
       clearInterval(this.timer);
       this.setState({
-        playing: false,
+        playingClick: false,
         buttonClass: "small-btn"
       });
     } else {
@@ -54,7 +54,7 @@ class Metronome extends Component {
       this.timer = setInterval(this.playClick, (60 / this.state.bpm) * 1000);
       this.setState({
         count: 0,
-        playing: true,
+        playingClick: true,
         buttonClass: "small-btn-green"
         // Play a click "immediately" (after setState finishes)
       }, this.playClick);
@@ -66,7 +66,7 @@ class Metronome extends Component {
     let divideBy = (this.state.bpm / 4)
     this.props.setTrackTime((60 / divideBy) * 1000)
 
-    if(this.state.playing) {
+    if(this.state.playingClick) {
       // Stop the old timer and start a new one
       clearInterval(this.timer);
       this.timer = setInterval(this.playClick, (60 / bpm) * 1000);
@@ -85,7 +85,7 @@ class Metronome extends Component {
   
 
   render() {
-    const { playing, bpm } = this.state;
+    const { playingClick, bpm } = this.state;
 
     return (
       <div className="metronome">

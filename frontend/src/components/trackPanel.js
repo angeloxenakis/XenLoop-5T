@@ -12,7 +12,7 @@ export function TrackPanel(props) {
     let [ playStatus, setPlayStatus ] = useState(true)
     let [ playBtnColor, playBtnChange ] = useState("large-btn")
     let [ reverbStatus, setReverbStatus ] = useState(false)
-    let [ audioCtx, setAudioCtx] = useState(new window.AudioContext)
+    let [ audioCtx, setAudioCtx] = useState(props.audioCtx)
     let [ trackStatus, setStatus ] = useState("inactive")
     let [ convolver, setConvolver ] = useState(audioCtx.createConvolver())
     let [ delay, setDelay ] = useState(audioCtx.createDelay(5.0))
@@ -56,20 +56,21 @@ export function TrackPanel(props) {
 
     let record = () => {
         if (mediaRecorder.state == "recording") {
-            mediaRecorder.stop()
-            console.log("Stopped recording")
-            recBtnChange("medium-btn")
+            console.log("Currently Recording")
         } else {
-            mediaRecorder.start()
-            setStatus("active")
-            console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
-            recBtnChange("medium-btn-red")
+            console.log("Counting Down to Record")
             setTimeout(() => {
-                mediaRecorder.stop();
-                recBtnChange("medium-btn");
-                console.log("Stopped recording")
-                console.log(`Track duration: ${props.trackTime}`)
-            }, props.trackTime);
+                mediaRecorder.start()
+                setStatus("active")
+                console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
+                recBtnChange("medium-btn-red")
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                    recBtnChange("medium-btn");
+                    console.log("Stopped recording")
+                    console.log(`Track duration: ${props.trackTime}`)
+                }, props.trackTime);
+            }, (props.trackTime / 2));
         }
     }
     
@@ -91,6 +92,23 @@ export function TrackPanel(props) {
                     trackAudio.loop = true
                     trackAudio.buffer = await audioCtx.decodeAudioData( await audioBlob.arrayBuffer() )
                     updateAudio(trackAudio)
+
+                    if (props.trackNum == 1) {
+                        props.setTrackOne(trackAudio)
+                    }
+                    if (props.trackNum == 2) {
+                        props.setTrackTwo(trackAudio)
+                    }
+                    if (props.trackNum == 3) {
+                        props.setTrackThree(trackAudio)
+                    }
+                    if (props.trackNum == 4) {
+                        props.setTrackFour(trackAudio)
+                    }
+                    if (props.trackNum == 5) {
+                        props.setTrackFive(trackAudio)
+                    }
+                    
                     trackAudio.start(0);
                 });
             });
@@ -115,21 +133,6 @@ export function TrackPanel(props) {
             //     convolver.connect(audioCtx.destination)
             // }
         }  
-        
-
-        // if (trackStatus === "inactive") {
-        //     console.log("no audio recorded")
-        //     playBtnChange("large-btn")
-        // } else if (trackStatus === "active" && reverbStatus === false) {
-        //     trackAudio.connect(audioCtx.destination)
-        //     console.log("Playing Audio")
-        //     playBtnChange("large-btn-green")
-        // } else if (trackStatus === "active" && reverbStatus === true) {
-        //     trackAudio.connect(audioCtx.destination)
-        //     convolver.connect(audioCtx.destination)
-        //     console.log("Playing Audio")
-        //     playBtnChange("large-btn-green")
-        // }
     }
 
     let pause = () => {
