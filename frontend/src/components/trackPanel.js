@@ -11,18 +11,48 @@ export function TrackPanel(props) {
     let [ recBtnColor, recBtnChange ] = useState("medium-btn")
     let [ playStatus, setPlayStatus ] = useState(true)
     let [ playBtnColor, playBtnChange ] = useState("large-btn")
+    let [ reverbStatus, setReverbStatus ] = useState(false)
+    let [ audioCtx, setAudioCtx] = useState(new window.AudioContext)
+    let [ trackStatus, setStatus ] = useState("inactive")
+    let [ convolver, setConvolver ] = useState(audioCtx.createConvolver())
+    let [ delay, setDelay ] = useState(audioCtx.createDelay(5.0))
+    let [ delayStatus, setDelayStatus ] = useState(false)
 
-    let audioCtx = new window.AudioContext();
+    console.log(trackAudio)
 
-    let createReverb = () => {
-        console.log("Reverb Activated")
-        
-        // let buffer = audioCtx.createBuffer(2, audioCtx.sampleRate * 3, audioCtx.sampleRate)
-        // console.log(trackAudio.arrayBuffer)
-        // trackAudio.connect(convolver)
-        // convolver.connect(audioCtx.destination)
-        // trackAudio.connect(audioCtx.destination)
+    let toggleReverb = async () => {
+        console.log("Reverb toggled")
+        if (reverbStatus === false) {
+            // trackAudio.disconnect(audioCtx)
+            setReverbStatus(true)
+            let arrayBuffer = base64ToArrayBuffer(impulseResponse);
+            let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+            trackAudio.connect(convolver)
+            convolver.connect(audioCtx.destination)
+            convolver.buffer = audioBuffer
+        } else if (reverbStatus === true) {
+            setReverbStatus(false)
+            convolver.disconnect(audioCtx.destination)
+        }
     }
+
+    let toggleDelay = async () => {
+        console.log("Delay toggled")
+        // if (reverbStatus === false) {
+        //     // trackAudio.disconnect(audioCtx)
+        //     setReverbStatus(true)
+        //     let arrayBuffer = base64ToArrayBuffer(impulseResponse);
+        //     let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+        //     trackAudio.connect(convolver)
+        //     convolver.connect(audioCtx.destination)
+        //     convolver.buffer = audioBuffer
+        // } else if (reverbStatus === true) {
+        //     setReverbStatus(false)
+        //     convolver.disconnect(audioCtx.destination)
+        // }
+    }
+
+
 
     let record = () => {
         if (mediaRecorder.state == "recording") {
@@ -31,6 +61,7 @@ export function TrackPanel(props) {
             recBtnChange("medium-btn")
         } else {
             mediaRecorder.start()
+            setStatus("active")
             console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
             recBtnChange("medium-btn-red")
             setTimeout(() => {
@@ -41,10 +72,6 @@ export function TrackPanel(props) {
             }, props.trackTime);
         }
     }
-
-
-
-
     
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ audio: true })
@@ -59,66 +86,77 @@ export function TrackPanel(props) {
                 });
 
                 mediaRecorder.addEventListener("stop", async () => {
-                    const audioBlob = new Blob(audioChunks);
-                    const audioUrl = URL.createObjectURL(audioBlob);
-                    // console.log(audioUrl)
-                    // console.log(`Recording audio on Track ${props.trackNum} (${props.trackName})...`)
-                    // trackAudio = new Audio(audioUrl)
-                    var trackAudio = audioCtx.createBufferSource();
+                    let audioBlob = new Blob(audioChunks);
+                    let trackAudio = audioCtx.createBufferSource();
+                    trackAudio.loop = true
                     trackAudio.buffer = await audioCtx.decodeAudioData( await audioBlob.arrayBuffer() )
                     updateAudio(trackAudio)
-                    // let track = audioCtx.createMediaElementSource(trackAudio);
-                    let arrayBuffer = base64ToArrayBuffer(impulseResponse);
-                    let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
-                    let convolver = audioCtx.createConvolver();
-
-                    trackAudio.connect(convolver)
-                    convolver.connect(audioCtx.destination)
-                    convolver.buffer = audioBuffer
+                    trackAudio.start(0);
                 });
             });
     }, [])
 
     let play = () => {
-        trackAudio.start(0);
-        console.log(trackAudio)
+        if (trackStatus === "inactive") {
+            console.log("no audio recorded")
+            playBtnChange("large-btn")
+        } 
+        
+        if (trackStatus === "active") {
+            console.log("Playing Audio")
+            playBtnChange("large-btn-green")
+            trackAudio.connect(audioCtx.destination)
+
+            if (reverbStatus === true) {
+                convolver.connect(audioCtx.destination)
+            } 
+
+            // if (delayStatus === true) {
+            //     convolver.connect(audioCtx.destination)
+            // }
+        }  
+        
+
+        // if (trackStatus === "inactive") {
+        //     console.log("no audio recorded")
+        //     playBtnChange("large-btn")
+        // } else if (trackStatus === "active" && reverbStatus === false) {
+        //     trackAudio.connect(audioCtx.destination)
+        //     console.log("Playing Audio")
+        //     playBtnChange("large-btn-green")
+        // } else if (trackStatus === "active" && reverbStatus === true) {
+        //     trackAudio.connect(audioCtx.destination)
+        //     convolver.connect(audioCtx.destination)
+        //     console.log("Playing Audio")
+        //     playBtnChange("large-btn-green")
+        // }
     }
 
     let pause = () => {
-        trackAudio.pause();
+        playBtnChange("large-btn")
+        if (reverbStatus === true) {
+            trackAudio.disconnect(audioCtx.destination)
+            convolver.disconnect(audioCtx.destination)
+        } else if (reverbStatus === false) {
+            trackAudio.disconnect(audioCtx.destination)
+        }
     }
 
     let playLoop = () => {
-        setPlayStatus(!playStatus)
-        console.log(playStatus)
-        trackAudio.addEventListener('ended', () => {
-            start(0);
-        }, false)
-        start();
-        
-        // if (playStatus === true) {
-        //     while (playStatus === true) {
-        //         play();
-        //         console.log("Playing Audio")
-        //         play();
-        //     }
-        // } else {
-        //     pause();
-        //     console.log("Pausing Audio")
-        // }
-
-        if (playBtnColor === "large-btn") {
-            console.log(playBtnColor)
-            playBtnChange("large-btn-green")
+        if (playStatus === true) {
+                play();
+                setPlayStatus(false)
         } else {
-            playBtnChange("large-btn")
             pause();
+            setPlayStatus(true)
+            console.log("Pausing Audio")
         }
     }
 
     let clearTrack = () => {
         toggleRecord(false)
         updateAudio(new Audio)
+        setStatus("inactive")
         console.log("Track audio cleared")
     }
 
@@ -139,12 +177,12 @@ export function TrackPanel(props) {
                     </div>
                     <div className="track-effect">
                         <div className="small-knob"><div className="small-tick"></div></div>
-                        <Toggle className="reverb-toggle" onChange={createReverb} icons={false}/>
+                        <Toggle className="reverb-toggle" onChange={toggleReverb} icons={false}/>
                         <p>REVERB</p>
                     </div>
                     <div className="track-effect">
                         <div className="small-knob"><div className="small-tick"></div></div>
-                        <Toggle className="delay-toggle" icons={false}/>
+                        <Toggle className="delay-toggle" onChange={toggleDelay} icons={false}/>
                         <p>DELAY</p>
                     </div>
                 </div>

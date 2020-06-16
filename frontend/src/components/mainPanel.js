@@ -27,7 +27,7 @@ export function MainPanel() {
         }
     ]
 
-    let [ trackTime, setTrackTime ] = useState(2000)
+    let [ trackTime, setTrackTime ] = useState(4000)
     let [ mainAudioCtx, setMainAudio ] = useState(new AudioContext)
     let [ trackOneAudio, setTrackOne ] = useState(new Audio)
     let [ trackTwoAudio, setTrackTwo ] = useState(new Audio)
