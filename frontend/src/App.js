@@ -2,9 +2,8 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Route } from 'react-router';
 import './App.css';
-import { MainPanel } from './components/mainPanel'
+import { XenLoop5T } from './components/xenLoop5T'
 import { About } from './components/about'
-import Metronome from './components/Metronome'
 import { Header } from './components/header'
 
 function App() {
@@ -12,9 +11,8 @@ function App() {
     <div className="App">
       <Header/>
       <BrowserRouter>
-        <Route exact path="/" component={MainPanel}/>
+        <Route exact path="/" component={XenLoop5T}/>
         <Route path="/about" component={About}/>
-        <Route path="/metronome" component={Metronome}/>
       </BrowserRouter>
     </div>
   );
