@@ -42,11 +42,11 @@ export function MainPanel(props) {
                     value={gainValue}
                     theme={{
                         donutColor: 'white',
-                        bgrColor: '#888888',
+                        bgrColor: '#333333',
                         maxedBgrColor: '#051622',
                         centerColor: '#333333',
                         centerFocusedColor: '#333333',
-                        donutThickness: 5
+                        donutThickness: 8
                     }}
                     onValueChange={setGainValue}
                     ariaLabelledBy={'my-label'}
@@ -81,24 +81,24 @@ export function MainPanel(props) {
                 <div>
                     <hr></hr>
                 </div>
-                <Donut 
-                            className="big-knob"
-                            diameter={72}
-                            min={0}
-                            max={10}
-                            step={.5}
-                            value={reverbValue}
-                            theme={{
-                                donutColor: 'white',
-                                bgrColor: '#888888',
-                                maxedBgrColor: '#051622',
-                                centerColor: '#333333',
-                                centerFocusedColor: '#333333',
-                                donutThickness: 5
-                            }}
-                            onValueChange={setReverbValue}
-                            ariaLabelledBy={'my-label'}
-                        />
+                    <Donut 
+                        className="big-knob"
+                        diameter={72}
+                        min={0}
+                        max={10}
+                        step={.5}
+                        value={reverbValue}
+                        theme={{
+                            donutColor: 'white',
+                            bgrColor: '#333333',
+                            maxedBgrColor: '#051622',
+                            centerColor: '#333333',
+                            centerFocusedColor: '#333333',
+                            donutThickness: 6
+                        }}
+                        onValueChange={setReverbValue}
+                        ariaLabelledBy={'my-label'}
+                    />
                 <Toggle icons={false}/>
                     {/* defaultChecked={this.state.tofuIsReady}
                     icons={false}

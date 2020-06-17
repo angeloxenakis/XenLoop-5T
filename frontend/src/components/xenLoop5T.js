@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MainPanel } from './mainPanel'
 import { Tracks } from './tracks'
-import click1 from '../assets/click1.wav';
-import click2 from '../assets/click2.wav';
-
-
 
 export function XenLoop5T() {
 

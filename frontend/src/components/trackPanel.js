@@ -10,6 +10,7 @@ export function TrackPanel(props) {
     let [ trackAudio , updateAudio ] = useState(new Audio)
     let [ trackVolume , adjustVolume ] = useState(0.5)
     let [ recBtnColor, recBtnChange ] = useState("medium-btn")
+    let [ clearBtnColor, clearBtnChange ] = useState("medium-btn")
     let [ playStatus, setPlayStatus ] = useState(false)
     let [ playBtnColor, playBtnChange ] = useState("large-btn")
     let [ reverbStatus, setReverbStatus ] = useState(false)
@@ -84,6 +85,7 @@ export function TrackPanel(props) {
             console.log("Currently Recording")
         } else {
             console.log("Counting Down to Record")
+            recBtnChange("medium-btn-yellow")
             setTimeout(() => {
                 mediaRecorder.start()
                 setStatus("active")
@@ -166,7 +168,6 @@ export function TrackPanel(props) {
         playBtnChange("large-btn")
         // trackAudio.loop = false
         if (reverbStatus === true) {
-            audioCtx.currentTime = 0
             trackAudio.disconnect(convolver)
             convolver.disconnect(trackGain)
             trackGain.disconnect(audioCtx.destination)
@@ -188,11 +189,13 @@ export function TrackPanel(props) {
     }
 
     let clearTrack = () => {
-        toggleRecord(false)
         updateAudio(new Audio)
         setStatus("inactive")
+        clearBtnChange("medium-btn-yellow")
         console.log("Track audio cleared")
-        playLoop()
+        setTimeout(() => {
+            clearBtnChange("medium-btn")
+        }, 250);
     }
 
     return (
@@ -216,11 +219,11 @@ export function TrackPanel(props) {
                             value={gainValue}
                             theme={{
                                 donutColor: 'white',
-                                bgrColor: '#888888',
+                                bgrColor: '#333333',
                                 maxedBgrColor: '#051622',
                                 centerColor: '#333333',
                                 centerFocusedColor: '#333333',
-                                donutThickness: 5
+                                donutThickness: 6
                             }}
                             onValueChange={setValue}
                             ariaLabelledBy={'my-label'}
@@ -237,7 +240,7 @@ export function TrackPanel(props) {
                             value={reverbValue}
                             theme={{
                                 donutColor: 'white',
-                                bgrColor: '#888888',
+                                bgrColor: '#333333',
                                 maxedBgrColor: '#051622',
                                 centerColor: '#333333',
                                 centerFocusedColor: '#333333',
@@ -259,7 +262,7 @@ export function TrackPanel(props) {
                             value={delayValue}
                             theme={{
                                 donutColor: 'white',
-                                bgrColor: '#888888',
+                                bgrColor: '#333333',
                                 maxedBgrColor: '#051622',
                                 centerColor: '#333333',
                                 centerFocusedColor: '#333333',
@@ -277,7 +280,7 @@ export function TrackPanel(props) {
                 <div className="track-section"><h4>CONTROLS</h4></div>
                 <div className="medium-btns">
                     <div className={recBtnColor} onMouseDown={record}><img className="record-icon" src={recordIcon}/></div>
-                    <div className="medium-btn" onMouseDown={clearTrack}><img height="24px" src={clearIcon}/></div>
+                    <div className={clearBtnColor} onMouseDown={clearTrack}><img height="24px" src={clearIcon}/></div>
                 </div>
                 <div className={playBtnColor} onMouseDown={playLoop}><img height="28px" src={playPauseIcon}/></div>
             </div>

@@ -430,6 +430,21 @@ h4 {
   box-shadow: 0px 0px 18px #C90000;
 }
 
+.medium-btn-yellow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 44%;
+  background-color: #333333;
+  background-color: #333333;
+  border: 2px solid #C99D00;
+  border-radius: 8px;
+  box-shadow: 0px 0px 18px #C99D00;
+}
+
+
+
 .large-btn {
   display: flex;
   justify-content: center;
@@ -441,6 +456,10 @@ h4 {
   border-radius: 8px;
   margin-top: 8px;
   box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.3)
+}
+
+.about-logo {
+  margin: 64px;
 }
 
 .large-btn-green {
@@ -457,7 +476,24 @@ h4 {
   box-shadow: 0px 0px 18px #00CF21;
 }
 
+.large-btn-yellow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 98%;
+  background-color: #333333;
+  border-radius: 8px;
+  margin-top: 8px;
+  border: 2px solid #C99D00;
+  border-radius: 8px;
+  box-shadow: 0px 0px 18px #C99D00;
+}
+
+
+
 .big-knob {
+  border: solid 4px #555555;
   font-size: 8px;
 }
 
@@ -502,7 +538,7 @@ h4 {
   text-align: center;
   margin: auto;
   margin-top: 0px;
-  padding-top: 160px;
+  padding-top: 104px;
   padding-bottom: 32px;
   color: white;
 }
