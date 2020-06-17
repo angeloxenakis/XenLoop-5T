@@ -9,7 +9,7 @@ export function TrackPanel(props) {
     let [ trackAudio , updateAudio ] = useState(new Audio)
     let [ trackVolume , adjustVolume ] = useState(0.5)
     let [ recBtnColor, recBtnChange ] = useState("medium-btn")
-    let [ playStatus, setPlayStatus ] = useState(true)
+    let [ playStatus, setPlayStatus ] = useState(false)
     let [ playBtnColor, playBtnChange ] = useState("large-btn")
     let [ reverbStatus, setReverbStatus ] = useState(false)
     let [ audioCtx, setAudioCtx] = useState(props.audioCtx)
@@ -17,23 +17,40 @@ export function TrackPanel(props) {
     let [ convolver, setConvolver ] = useState(audioCtx.createConvolver())
     let [ delay, setDelay ] = useState(audioCtx.createDelay(5.0))
     let [ delayStatus, setDelayStatus ] = useState(false)
-
-    console.log(trackAudio)
+    let [ trackGain, setGain ] = useState(audioCtx.createGain())
 
     let toggleReverb = async () => {
         console.log("Reverb toggled")
-        if (reverbStatus === false) {
-            // trackAudio.disconnect(audioCtx)
-            setReverbStatus(true)
-            let arrayBuffer = base64ToArrayBuffer(impulseResponse);
-            let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
-            trackAudio.connect(convolver)
-            convolver.connect(audioCtx.destination)
-            convolver.buffer = audioBuffer
-        } else if (reverbStatus === true) {
-            setReverbStatus(false)
-            convolver.disconnect(audioCtx.destination)
+        if (playStatus === false) {
+            if (reverbStatus === false) {
+                setReverbStatus(true)
+                let arrayBuffer = base64ToArrayBuffer(impulseResponse);
+                let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+                convolver.buffer = audioBuffer
+            } else if (reverbStatus === true) {
+                setReverbStatus(false)
+            }
         }
+
+        if (playStatus === true) {
+            if (reverbStatus === false) {
+                setReverbStatus(true)
+                let arrayBuffer = base64ToArrayBuffer(impulseResponse);
+                let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+                convolver.buffer = audioBuffer
+                trackAudio.disconnect(trackGain)
+                trackAudio.connect(convolver)
+                convolver.connect(trackGain)
+                trackGain.connect(audioCtx.destination)
+            } else if (reverbStatus === true) {
+                setReverbStatus(false)
+                trackAudio.disconnect(convolver)
+                convolver.disconnect(trackGain)
+                trackAudio.connect(trackGain)
+                trackGain.connect(audioCtx.destination)
+            }
+        } 
+
     }
 
     let toggleDelay = async () => {
@@ -115,43 +132,54 @@ export function TrackPanel(props) {
     }, [])
 
     let play = () => {
+        trackAudio.loop = true
         if (trackStatus === "inactive") {
             console.log("no audio recorded")
-            playBtnChange("large-btn")
         } 
         
         if (trackStatus === "active") {
-            console.log("Playing Audio")
-            playBtnChange("large-btn-green")
-            trackAudio.connect(audioCtx.destination)
-
+            setPlayStatus()
             if (reverbStatus === true) {
-                convolver.connect(audioCtx.destination)
-            } 
-
-            // if (delayStatus === true) {
-            //     convolver.connect(audioCtx.destination)
-            // }
+                console.log("Playing Audio")
+                playBtnChange("large-btn-green")
+                trackAudio.connect(convolver)
+                convolver.connect(trackGain)
+                trackGain.connect(audioCtx.destination)
+            } else {
+                console.log("Playing Audio")
+                playBtnChange("large-btn-green")
+                trackAudio.connect(trackGain)
+                trackGain.connect(audioCtx.destination)
+            }
         }  
+    }
+
+    let decreaseVolume = () => {
+        trackGain.gain.value = trackGain.gain.value - 0.1
+        console.log(trackGain.gain.value)
     }
 
     let pause = () => {
         playBtnChange("large-btn")
-        if (reverbStatus === true) {
-            trackAudio.disconnect(audioCtx.destination)
-            convolver.disconnect(audioCtx.destination)
-        } else if (reverbStatus === false) {
-            trackAudio.disconnect(audioCtx.destination)
-        }
+        trackAudio.loop = false
+        // if (reverbStatus === true) {
+        //     audioCtx.currentTime = 0
+        //     trackAudio.disconnect(convolver)
+        //     convolver.disconnect(trackGain)
+        //     trackGain.disconnect(audioCtx.destination)
+        // } else if (reverbStatus === false) {
+        //     trackAudio.disconnect(trackGain)
+        //     trackGain.disconnect(audioCtx.destination)
+        // }
     }
 
     let playLoop = () => {
-        if (playStatus === true) {
+        if (playStatus === false) {
                 play();
-                setPlayStatus(false)
+                setPlayStatus(true)
         } else {
             pause();
-            setPlayStatus(true)
+            setPlayStatus(false)
             console.log("Pausing Audio")
         }
     }
@@ -161,6 +189,7 @@ export function TrackPanel(props) {
         updateAudio(new Audio)
         setStatus("inactive")
         console.log("Track audio cleared")
+        playLoop()
     }
 
     return (
@@ -175,7 +204,7 @@ export function TrackPanel(props) {
                 <div className="track-section"><h4>EFFECTS</h4></div>
                 <div className="effect-knobs">
                     <div className="track-volume">
-                        <div className="medium-knob"><div className="medium-tick"></div></div>
+                        <div className="medium-knob" onMouseDown={decreaseVolume}><div className="medium-tick"></div></div>
                         <p>VOLUME</p>
                     </div>
                     <div className="track-effect">
@@ -193,10 +222,10 @@ export function TrackPanel(props) {
             <div className="controls">
                 <div className="track-section"><h4>CONTROLS</h4></div>
                 <div className="medium-btns">
-                    <div className={recBtnColor} onClick={record}><img className="record-icon" src={recordIcon}/></div>
-                    <div className="medium-btn" onClick={clearTrack}><img height="24px" src={clearIcon}/></div>
+                    <div className={recBtnColor} onMouseDown={record}><img className="record-icon" src={recordIcon}/></div>
+                    <div className="medium-btn" onMouseDown={clearTrack}><img height="24px" src={clearIcon}/></div>
                 </div>
-                <div className={playBtnColor} onClick={playLoop}><img height="28px" src={playPauseIcon}/></div>
+                <div className={playBtnColor} onMouseDown={playLoop}><img height="28px" src={playPauseIcon}/></div>
             </div>
         </div>
     )

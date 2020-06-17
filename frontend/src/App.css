@@ -147,8 +147,12 @@ h3 {
 .about-container {
   width: 90%;
   margin: auto;
-  background-image: url('./assets/pedal.jpg');
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color:black;
+}
+
+.about-text-center {
+  color: white;
+  text-align: center;
 }
 
 /* .about-wallpaper {
@@ -472,7 +476,7 @@ h4 {
   font-size: 16px;
   width: 200px;
   padding: 0px 16px 16px 0px;
-  width: 50%;
+  width: 65%;
   border-right: 1px solid white;
   margin-right: 32px;
 }
@@ -484,7 +488,7 @@ h4 {
   font-size: 16px;
   width: 200px;
   padding: 0px 0px 16px 40px;
-  width: 40%;
+  width: 65%;
   border-left: 1px solid white;
   margin-left: 32px;
 }
@@ -494,7 +498,7 @@ h4 {
   text-align: center;
   margin: auto;
   margin-top: 0px;
-  padding-top: 32px;
+  padding-top: 160px;
   padding-bottom: 32px;
   color: white;
 }
@@ -508,10 +512,15 @@ h4 {
   font-family: 'Bebas Neue', cursive;
 }
 
+.about-text-center h3 {
+  font-size: 48px;
+  font-family: 'Bebas Neue', cursive;
+}
+
 .hero {
   margin-left: auto;
   margin-right: auto;
-  width: 60%;
+  width: 100%;
   margin-bottom: 48px;
 }
 
