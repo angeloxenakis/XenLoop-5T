@@ -6,6 +6,7 @@ import  click1 from "../assets/click1.wav"
 import click2 from "../assets/click2.wav"
 import Metronome from './Metronome'
 import { Knob } from "react-rotary-knob";
+import { Donut } from 'react-dial-knob'
 import Toggle from 'react-toggle'
 
 
@@ -16,6 +17,8 @@ export function MainPanel(props) {
     let [ beatsPerMeasure, setFrequency ] = useState(4)
     let [ timer, setTimer ] = useState(0)
     let [ playBtnColor, playBtnChange ] = useState("small-btn")
+    let [gainValue, setGainValue] = useState(7)
+    let [reverbValue, setReverbValue] = useState(5)
 
     let play = () => {
         props.playAll()
@@ -30,7 +33,24 @@ export function MainPanel(props) {
     return (
         <div className="main-info">
             <div className="master-vol">
-                <div className="large-knob"><div className="large-tick"></div></div>
+                <Donut 
+                    className="big-knob"
+                    diameter={110}
+                    min={0}
+                    max={10}
+                    step={.5}
+                    value={gainValue}
+                    theme={{
+                        donutColor: 'white',
+                        bgrColor: '#333333',
+                        maxedBgrColor: '#051622',
+                        centerColor: '#333333',
+                        centerFocusedColor: '#333333',
+                        donutThickness: 8
+                    }}
+                    onValueChange={setGainValue}
+                    ariaLabelledBy={'my-label'}
+                />
                 <div className="master-vol-title"><p>MASTER VOLUME</p></div>
             </div>
             <div className="master-title">
@@ -61,7 +81,24 @@ export function MainPanel(props) {
                 <div>
                     <hr></hr>
                 </div>
-                <div className="medium-knob"><div className="medium-tick"></div></div>
+                    <Donut 
+                        className="big-knob"
+                        diameter={72}
+                        min={0}
+                        max={10}
+                        step={.5}
+                        value={reverbValue}
+                        theme={{
+                            donutColor: 'white',
+                            bgrColor: '#333333',
+                            maxedBgrColor: '#051622',
+                            centerColor: '#333333',
+                            centerFocusedColor: '#333333',
+                            donutThickness: 6
+                        }}
+                        onValueChange={setReverbValue}
+                        ariaLabelledBy={'my-label'}
+                    />
                 <Toggle icons={false}/>
                     {/* defaultChecked={this.state.tofuIsReady}
                     icons={false}

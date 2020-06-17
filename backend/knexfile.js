@@ -5,7 +5,16 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      filename: './dev.sqlite3'
+      database: 'xenloop',
+      user:     'angeloxenakis',
+      password: '118064Amx'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
     }
   },
 
@@ -14,7 +23,7 @@ module.exports = {
     connection: {
       database: 'my_db',
       user:     'angeloxenakis',
-      password: 'password'
+      password: '118064Amx'
     },
     pool: {
       min: 2,

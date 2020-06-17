@@ -8,6 +8,7 @@ export function About() {
         <div className="about-wallpaper">
             <div className="about-container">
                 <div className="hero-text">
+                    <img className="about-logo" width="30%" src={require('../assets/xenloop-logo.png')}/>
                     <h1>X E N L O O P - 5 T</h1>
                     <p>XenLoop-5T is a freeware audio loop station designed to give musicians access to loop station 
                         functionality without breaking the bank. Record audio on separate tacks and play them back on 

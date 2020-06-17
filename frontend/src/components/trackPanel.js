@@ -3,12 +3,14 @@ import recordIcon from "../assets/record-icon.svg"
 import clearIcon from "../assets/clear-icon.svg"
 import playPauseIcon from "../assets/play-pause-icon.svg"
 import Toggle from 'react-toggle'
+import { Donut } from 'react-dial-knob'
 
 export function TrackPanel(props) {
     let [ mediaRecorder, toggleRecord ] = useState(false)
     let [ trackAudio , updateAudio ] = useState(new Audio)
     let [ trackVolume , adjustVolume ] = useState(0.5)
     let [ recBtnColor, recBtnChange ] = useState("medium-btn")
+    let [ clearBtnColor, clearBtnChange ] = useState("medium-btn")
     let [ playStatus, setPlayStatus ] = useState(false)
     let [ playBtnColor, playBtnChange ] = useState("large-btn")
     let [ reverbStatus, setReverbStatus ] = useState(false)
@@ -18,6 +20,13 @@ export function TrackPanel(props) {
     let [ delay, setDelay ] = useState(audioCtx.createDelay(5.0))
     let [ delayStatus, setDelayStatus ] = useState(false)
     let [ trackGain, setGain ] = useState(audioCtx.createGain())
+    let [gainValue, setValue] = useState(7)
+    let [reverbValue, setReverbValue] = useState(5)
+    let [delayValue, setDelayValue] = useState(5)
+    
+
+    trackGain.gain.value = gainValue * 0.1
+    console.log(trackGain.gain.value)
 
     let toggleReverb = async () => {
         console.log("Reverb toggled")
@@ -76,6 +85,7 @@ export function TrackPanel(props) {
             console.log("Currently Recording")
         } else {
             console.log("Counting Down to Record")
+            recBtnChange("medium-btn-yellow")
             setTimeout(() => {
                 mediaRecorder.start()
                 setStatus("active")
@@ -154,23 +164,17 @@ export function TrackPanel(props) {
         }  
     }
 
-    let decreaseVolume = () => {
-        trackGain.gain.value = trackGain.gain.value - 0.1
-        console.log(trackGain.gain.value)
-    }
-
     let pause = () => {
         playBtnChange("large-btn")
-        trackAudio.loop = false
-        // if (reverbStatus === true) {
-        //     audioCtx.currentTime = 0
-        //     trackAudio.disconnect(convolver)
-        //     convolver.disconnect(trackGain)
-        //     trackGain.disconnect(audioCtx.destination)
-        // } else if (reverbStatus === false) {
-        //     trackAudio.disconnect(trackGain)
-        //     trackGain.disconnect(audioCtx.destination)
-        // }
+        // trackAudio.loop = false
+        if (reverbStatus === true) {
+            trackAudio.disconnect(convolver)
+            convolver.disconnect(trackGain)
+            trackGain.disconnect(audioCtx.destination)
+        } else if (reverbStatus === false) {
+            trackAudio.disconnect(trackGain)
+            trackGain.disconnect(audioCtx.destination)
+        }
     }
 
     let playLoop = () => {
@@ -185,11 +189,13 @@ export function TrackPanel(props) {
     }
 
     let clearTrack = () => {
-        toggleRecord(false)
         updateAudio(new Audio)
         setStatus("inactive")
+        clearBtnChange("medium-btn-yellow")
         console.log("Track audio cleared")
-        playLoop()
+        setTimeout(() => {
+            clearBtnChange("medium-btn")
+        }, 250);
     }
 
     return (
@@ -204,16 +210,67 @@ export function TrackPanel(props) {
                 <div className="track-section"><h4>EFFECTS</h4></div>
                 <div className="effect-knobs">
                     <div className="track-volume">
-                        <div className="medium-knob" onMouseDown={decreaseVolume}><div className="medium-tick"></div></div>
+                        <Donut 
+                            className="big-knob"
+                            diameter={72}
+                            min={0}
+                            max={10}
+                            step={.5}
+                            value={gainValue}
+                            theme={{
+                                donutColor: 'white',
+                                bgrColor: '#333333',
+                                maxedBgrColor: '#051622',
+                                centerColor: '#333333',
+                                centerFocusedColor: '#333333',
+                                donutThickness: 6
+                            }}
+                            onValueChange={setValue}
+                            ariaLabelledBy={'my-label'}
+                        />
                         <p>VOLUME</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"><div className="small-tick"></div></div>
+                        <Donut 
+                            className="big-knob"
+                            diameter={40}
+                            min={0}
+                            max={10}
+                            step={.5}
+                            value={reverbValue}
+                            theme={{
+                                donutColor: 'white',
+                                bgrColor: '#333333',
+                                maxedBgrColor: '#051622',
+                                centerColor: '#333333',
+                                centerFocusedColor: '#333333',
+                                donutThickness: 5
+                            }}
+                            onValueChange={setReverbValue}
+                            ariaLabelledBy={'my-label'}
+                        />
                         <Toggle className="reverb-toggle" onChange={toggleReverb} icons={false}/>
                         <p>REVERB</p>
                     </div>
                     <div className="track-effect">
-                        <div className="small-knob"><div className="small-tick"></div></div>
+                        <Donut 
+                            className="big-knob"
+                            diameter={40}
+                            min={0}
+                            max={10}
+                            step={.5}
+                            value={delayValue}
+                            theme={{
+                                donutColor: 'white',
+                                bgrColor: '#333333',
+                                maxedBgrColor: '#051622',
+                                centerColor: '#333333',
+                                centerFocusedColor: '#333333',
+                                donutThickness: 5
+                            }}
+                            onValueChange={setDelayValue}
+                            ariaLabelledBy={'my-label'}
+                        />
                         <Toggle className="delay-toggle" onChange={toggleDelay} icons={false}/>
                         <p>DELAY</p>
                     </div>
@@ -223,7 +280,7 @@ export function TrackPanel(props) {
                 <div className="track-section"><h4>CONTROLS</h4></div>
                 <div className="medium-btns">
                     <div className={recBtnColor} onMouseDown={record}><img className="record-icon" src={recordIcon}/></div>
-                    <div className="medium-btn" onMouseDown={clearTrack}><img height="24px" src={clearIcon}/></div>
+                    <div className={clearBtnColor} onMouseDown={clearTrack}><img height="24px" src={clearIcon}/></div>
                 </div>
                 <div className={playBtnColor} onMouseDown={playLoop}><img height="28px" src={playPauseIcon}/></div>
             </div>
