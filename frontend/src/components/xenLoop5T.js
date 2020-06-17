@@ -9,23 +9,23 @@ export function XenLoop5T() {
     let fakeDatabase = [
         {
             trackNum: 1,
-            trackName: "RHTHYM GUITAR"
+            trackName: "Track 1"
         },
         {
             trackNum: 2,
-            trackName: "LEAD GUITAR"
+            trackName: "Track 2"
         },
         {
             trackNum: 3,
-            trackName: "BEATBOX"
+            trackName: "Track 3"
         },
         {
             trackNum: 4,
-            trackName: "LEAD VOCALS"
+            trackName: "Track 4"
         },
         {
             trackNum: 5,
-            trackName: "BACKUP VOCALS"
+            trackName: "Track 5"
         }
     ]
 
@@ -37,8 +37,6 @@ export function XenLoop5T() {
     let [ trackThreeAudio, setTrackThree ] = useState(new Audio)
     let [ trackFourAudio, setTrackFour] = useState(new Audio)
     let [ trackFiveAudio, setTrackFive ] = useState(new Audio)
-
-    // console.log(trackOneAudio)
 
     let playAll = () => {
         if (playAllStatus === false) {
@@ -60,14 +58,14 @@ export function XenLoop5T() {
             if (trackFiveAudio.loop === true) {
                 trackFiveAudio.connect(audioCtx.destination)
             }
-        } else {
+        } else if (playAllStatus === true) {
             setPlayAll(false)
             console.log("All Tracks Stopped")
             if (trackOneAudio.loop === true) {
                 trackOneAudio.disconnect(audioCtx.destination)
             }
             if (trackTwoAudio.loop === true) {
-                trackTwoAudio.disonnect(audioCtx.destination)
+                trackTwoAudio.disconnect(audioCtx.destination)
             }
             if (trackThreeAudio.loop === true) {
                 trackThreeAudio.disconnect(audioCtx.destination)

@@ -18,9 +18,9 @@ export function MainPanel(props) {
     let [ playBtnColor, playBtnChange ] = useState("small-btn")
 
     let play = () => {
+        props.playAll()
         if (playBtnColor == "small-btn") {
             playBtnChange("small-btn-green")
-            props.playAll()
         } else {
             playBtnChange("small-btn")
         }
@@ -36,7 +36,7 @@ export function MainPanel(props) {
             <div className="master-title">
                 <hr></hr>
                 <div className="xenloop-title"><h1>X E N L O O P - 5 T</h1></div>
-                <div className="project-title" contenteditable="true">FINAL PROJECT SHOWCASE</div>
+                <div className="project-title" contenteditable="true">Untitled Project</div>
             </div>
             <div className="main-controls">
                 <div className="ctrl-line-1">
@@ -48,7 +48,7 @@ export function MainPanel(props) {
                 <div className="main-btns">
                     <div className="main-control">
                         <p className="ctrl-title">PLAY/PAUSE</p>
-                        <div className={playBtnColor} onClick={play}><img height="15px" src={playPauseIcon}/></div>
+                        <div className={playBtnColor} onMouseDown={play}><img height="15px" src={playPauseIcon}/></div>
                     </div>
                     <div className="main-control">
                         <p className="ctrl-title">CLEAR TRACKS</p>

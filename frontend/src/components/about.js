@@ -22,7 +22,7 @@ export function About() {
                             Volume, and toggle Delay & Reverb effects.
                         </p>
                     </div>
-                    <div><img width="100%" src={require('../assets/track-effects.png')}/></div>
+                    <div className="about-img"><img width="100%" src={require('../assets/track-effects.png')}/></div>
                 </div>  
                 <div className="about">
                     <div><img width="100%" src={require('../assets/track-controls.png')}/></div>
@@ -31,6 +31,11 @@ export function About() {
                         <p>Record your track audio, play it back, or clear the audio if you didn't like what you laid down.</p>
                     </div>
                 </div>  
+                <div className="about-text-center">
+                        <h3>M A I N &nbsp; P A N E L</h3>
+                        <p>Record your track audio, play it back, or clear the audio if you didn't like what you laid down.</p>
+                        <div><img width="100%" src={require('../assets/main-controls.png')}/></div>
+                </div>
             </div>
         </div>
     )
