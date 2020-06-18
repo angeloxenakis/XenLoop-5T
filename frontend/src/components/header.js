@@ -5,13 +5,13 @@ export function Header() {
         <div className="header">
             <div className="nav">
                 <a href="/"><strong>XenLoop-5T</strong></a>
-                <p>New</p>
+                <a href="/">New</a>
                 <p>Save</p>
                 <a href="/about">Info</a>
                 <p>Contact</p>
             </div>
             <div className="login">
-                <p>Login</p>
+                <a href="/login">Login</a>
             </div>
         </div>
     )

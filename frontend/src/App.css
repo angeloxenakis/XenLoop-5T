@@ -48,6 +48,11 @@ body {
   padding-top: 56px;
 }
 
+.login-btns {
+  display: flex;
+  margin-bottom: 16px;
+}
+
 .main-panel {
   color: white;
   background-color: black;
@@ -329,6 +334,33 @@ h3 {
   margin: 8px;
 }
 
+.login-title {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-title h2 {
+  font-size: 32px;
+  font-family: 'Bebas Neue', cursive;
+}
+
+.login-container {
+  color: white;
+  padding-top:130px;
+}
+
+.login-panel {
+  width: 300px;
+  background-color: black;
+  padding: 40px;
+  border: 8px solid #444444;
+  border-bottom: 16px solid #444444;
+  border-radius: 16px;
+  margin: auto;
+}
+
 .track-header p {
   margin: 0px;
 }
@@ -338,6 +370,31 @@ h3 {
 }
 
 .track-title {
+  color: rgb(165, 255, 123);
+  padding: 8px;
+  font-family: 'VT323', monospace;
+  background-color: #27325B;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  outline: none;
+}
+
+.login-user {
+  color: rgb(165, 255, 123);
+  padding: 8px;
+  font-family: 'VT323', monospace;
+  background-color: #27325B;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  outline: none;
+  margin-bottom: 16px;
+}
+
+.login-password {
   color: rgb(165, 255, 123);
   padding: 8px;
   font-family: 'VT323', monospace;
@@ -389,6 +446,56 @@ h4 {
   border: 2px solid white;
   border-radius: 8px;
   box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.3)
+}
+
+.login-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 8px;
+  height: 38px;
+  width: 50%;
+  background-color: #333333;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.login-btn a {
+
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+  font-size: 12px;
+}
+
+.login-panel hr {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.forgot-pass a {
+  text-align:center;
+  text-decoration: none;
+  color: #888888;
+  font-size: 12px;
+}
+
+.signup-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 8px;
+  height: 38px;
+  width: 50%;
+  background-color: #333333;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -5px 0 rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  font-size: 12px;
 }
 
 .small-btn-green {
