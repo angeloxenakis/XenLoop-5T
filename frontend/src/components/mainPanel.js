@@ -17,8 +17,8 @@ export function MainPanel(props) {
     let [ beatsPerMeasure, setFrequency ] = useState(4)
     let [ timer, setTimer ] = useState(0)
     let [ playBtnColor, playBtnChange ] = useState("small-btn")
-    let [gainValue, setGainValue] = useState(7)
     let [reverbValue, setReverbValue] = useState(5)
+
 
     let play = () => {
         props.playAll()
@@ -39,7 +39,7 @@ export function MainPanel(props) {
                     min={0}
                     max={10}
                     step={.5}
-                    value={gainValue}
+                    value={props.globalGainLevel}
                     theme={{
                         donutColor: 'white',
                         bgrColor: '#333333',
@@ -48,7 +48,7 @@ export function MainPanel(props) {
                         centerFocusedColor: '#333333',
                         donutThickness: 8
                     }}
-                    onValueChange={setGainValue}
+                    onValueChange={props.setGlobalGainLevel}
                     ariaLabelledBy={'my-label'}
                 />
                 <div className="master-vol-title"><p>MASTER VOLUME</p></div>

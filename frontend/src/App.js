@@ -5,6 +5,7 @@ import './App.css';
 import { XenLoop5T } from './components/xenLoop5T'
 import { About } from './components/about'
 import { Header } from './components/header'
+import { Login } from './components/login'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Route exact path="/" component={XenLoop5T}/>
         <Route path="/about" component={About}/>
+        <Route path="/login" component={Login}/>
       </BrowserRouter>
     </div>
   );

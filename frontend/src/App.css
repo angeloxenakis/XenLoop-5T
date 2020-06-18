@@ -329,6 +329,33 @@ h3 {
   margin: 8px;
 }
 
+.login-title {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-title h2 {
+  font-size: 32px;
+  font-family: 'Bebas Neue', cursive;
+}
+
+.login-container {
+  color: white;
+  padding-top:130px;
+}
+
+.login-panel {
+  width: 300px;
+  background-color: black;
+  padding: 40px;
+  border: 8px solid #444444;
+  border-bottom: 16px solid #444444;
+  border-radius: 16px;
+  margin: auto;
+}
+
 .track-header p {
   margin: 0px;
 }
@@ -338,6 +365,31 @@ h3 {
 }
 
 .track-title {
+  color: rgb(165, 255, 123);
+  padding: 8px;
+  font-family: 'VT323', monospace;
+  background-color: #27325B;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  outline: none;
+}
+
+.login-user {
+  color: rgb(165, 255, 123);
+  padding: 8px;
+  font-family: 'VT323', monospace;
+  background-color: #27325B;
+  border: 2px solid white;
+  border-radius: 8px;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  outline: none;
+  margin-bottom: 16px;
+}
+
+.login-password {
   color: rgb(165, 255, 123);
   padding: 8px;
   font-family: 'VT323', monospace;

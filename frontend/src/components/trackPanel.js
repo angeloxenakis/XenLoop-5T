@@ -7,7 +7,7 @@ import { Donut } from 'react-dial-knob'
 
 export function TrackPanel(props) {
     let [ mediaRecorder, toggleRecord ] = useState(false)
-    let [ trackAudio , updateAudio ] = useState(new Audio)
+    let [ trackAudio , updateAudio ] = useState(props.trackAudio)
     let [ trackVolume , adjustVolume ] = useState(0.5)
     let [ recBtnColor, recBtnChange ] = useState("medium-btn")
     let [ clearBtnColor, clearBtnChange ] = useState("medium-btn")
@@ -30,52 +30,45 @@ export function TrackPanel(props) {
 
     let toggleReverb = async () => {
         console.log("Reverb toggled")
-        if (playStatus === false) {
-            if (reverbStatus === false) {
-                setReverbStatus(true)
-                let arrayBuffer = base64ToArrayBuffer(impulseResponse);
-                let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
-                convolver.buffer = audioBuffer
-            } else if (reverbStatus === true) {
-                setReverbStatus(false)
-            }
-        }
+        setReverbStatus(true)
+        let arrayBuffer = base64ToArrayBuffer(impulseResponse);
+        let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+        convolver.buffer = audioBuffer
+        convolver.connect(audioCtx)
+        // if (playStatus === false) {
+        //     if (reverbStatus === false) {
+        //         setReverbStatus(true)
+        //         let arrayBuffer = base64ToArrayBuffer(impulseResponse);
+        //         let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+        //         convolver.buffer = audioBuffer
+        //     } else if (reverbStatus === true) {
+        //         setReverbStatus(false)
+        //     }
+        // }
 
-        if (playStatus === true) {
-            if (reverbStatus === false) {
-                setReverbStatus(true)
-                let arrayBuffer = base64ToArrayBuffer(impulseResponse);
-                let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
-                convolver.buffer = audioBuffer
-                trackAudio.disconnect(trackGain)
-                trackAudio.connect(convolver)
-                convolver.connect(trackGain)
-                trackGain.connect(audioCtx.destination)
-            } else if (reverbStatus === true) {
-                setReverbStatus(false)
-                trackAudio.disconnect(convolver)
-                convolver.disconnect(trackGain)
-                trackAudio.connect(trackGain)
-                trackGain.connect(audioCtx.destination)
-            }
-        } 
+        // if (playStatus === true) {
+        //     if (reverbStatus === false) {
+        //         setReverbStatus(true)
+        //         let arrayBuffer = base64ToArrayBuffer(impulseResponse);
+        //         let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
+        //         convolver.buffer = audioBuffer
+        //         trackAudio.disconnect(trackGain)
+        //         trackAudio.connect(convolver)
+        //         convolver.connect(trackGain)
+        //         trackGain.connect(audioCtx.destination)
+        //     } else if (reverbStatus === true) {
+        //         setReverbStatus(false)
+        //         trackAudio.disconnect(convolver)
+        //         convolver.disconnect(trackGain)
+        //         trackAudio.connect(trackGain)
+        //         trackGain.connect(audioCtx.destination)
+        //     }
+        // } 
 
     }
 
     let toggleDelay = async () => {
         console.log("Delay toggled")
-        // if (reverbStatus === false) {
-        //     // trackAudio.disconnect(audioCtx)
-        //     setReverbStatus(true)
-        //     let arrayBuffer = base64ToArrayBuffer(impulseResponse);
-        //     let audioBuffer = await audioCtx.decodeAudioData(arrayBuffer)
-        //     trackAudio.connect(convolver)
-        //     convolver.connect(audioCtx.destination)
-        //     convolver.buffer = audioBuffer
-        // } else if (reverbStatus === true) {
-        //     setReverbStatus(false)
-        //     convolver.disconnect(audioCtx.destination)
-        // }
     }
 
 
@@ -142,50 +135,23 @@ export function TrackPanel(props) {
     }, [])
 
     let play = () => {
-        trackAudio.loop = true
         if (trackStatus === "inactive") {
             console.log("no audio recorded")
         } 
         
         if (trackStatus === "active") {
-            setPlayStatus()
-            if (reverbStatus === true) {
+            if (playStatus === false) {
+                setPlayStatus(true)
                 console.log("Playing Audio")
+                props.playTrack()
                 playBtnChange("large-btn-green")
-                trackAudio.connect(convolver)
-                convolver.connect(trackGain)
-                trackGain.connect(audioCtx.destination)
             } else {
-                console.log("Playing Audio")
-                playBtnChange("large-btn-green")
-                trackAudio.connect(trackGain)
-                trackGain.connect(audioCtx.destination)
+                setPlayStatus(false)
+                console.log("Audio Paused")
+                props.pauseTrack()
+                playBtnChange("large-btn")
             }
         }  
-    }
-
-    let pause = () => {
-        playBtnChange("large-btn")
-        // trackAudio.loop = false
-        if (reverbStatus === true) {
-            trackAudio.disconnect(convolver)
-            convolver.disconnect(trackGain)
-            trackGain.disconnect(audioCtx.destination)
-        } else if (reverbStatus === false) {
-            trackAudio.disconnect(trackGain)
-            trackGain.disconnect(audioCtx.destination)
-        }
-    }
-
-    let playLoop = () => {
-        if (playStatus === false) {
-                play();
-                setPlayStatus(true)
-        } else {
-            pause();
-            setPlayStatus(false)
-            console.log("Pausing Audio")
-        }
     }
 
     let clearTrack = () => {
@@ -282,7 +248,7 @@ export function TrackPanel(props) {
                     <div className={recBtnColor} onMouseDown={record}><img className="record-icon" src={recordIcon}/></div>
                     <div className={clearBtnColor} onMouseDown={clearTrack}><img height="24px" src={clearIcon}/></div>
                 </div>
-                <div className={playBtnColor} onMouseDown={playLoop}><img height="28px" src={playPauseIcon}/></div>
+                <div className={playBtnColor} onMouseDown={play}><img height="28px" src={playPauseIcon}/></div>
             </div>
         </div>
     )
