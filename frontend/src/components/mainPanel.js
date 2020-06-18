@@ -39,7 +39,7 @@ export function MainPanel(props) {
                     min={0}
                     max={10}
                     step={.5}
-                    value={gainValue}
+                    value={props.globalGainLevel}
                     theme={{
                         donutColor: 'white',
                         bgrColor: '#333333',
@@ -48,7 +48,7 @@ export function MainPanel(props) {
                         centerFocusedColor: '#333333',
                         donutThickness: 8
                     }}
-                    onValueChange={setGainValue}
+                    onValueChange={props.setGlobalGainLevel}
                     ariaLabelledBy={'my-label'}
                 />
                 <div className="master-vol-title"><p>MASTER VOLUME</p></div>

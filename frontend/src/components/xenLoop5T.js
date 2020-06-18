@@ -30,52 +30,68 @@ export function XenLoop5T() {
     let [ trackTime, setTrackTime ] = useState(4000)
     let [ playAllStatus, setPlayAll] = useState(false)
     let [ audioCtx, setAudioCtx ] = useState(new AudioContext)
+
+    let [ globalGain, createMainGain ] = useState(audioCtx.createGain())
+    let [ globalGainLevel, setGlobalGainLevel ] = useState(7)
+    globalGain.gain.value = globalGainLevel * 0.1
+    console.log(globalGain.gain.value)
+    globalGain.connect(audioCtx.destination)
+
+    let [ globalReverb, createGlobalReverb ] = useState(audioCtx.createConvolver())
+    console.log(globalReverb)
+    let [ globalReverbLevel, setGlobalReverbLevel ] = useState(5)
+    let [ globalReverbStatus, setGlobalReverbStatus ] = useState(false)
+
     let [ trackOneAudio, setTrackOne ] = useState(new Audio)
     let [ trackTwoAudio, setTrackTwo ] = useState(new Audio)
     let [ trackThreeAudio, setTrackThree ] = useState(new Audio)
     let [ trackFourAudio, setTrackFour] = useState(new Audio)
     let [ trackFiveAudio, setTrackFive ] = useState(new Audio)
-
+    let playTrackOne = () => {
+        trackOneAudio.connect(globalGain)
+    }
+    let pauseTrackOne = () => {
+        trackOneAudio.disconnect(globalGain)
+    }
     let playAll = () => {
         if (playAllStatus === false) {
             setPlayAll(true)
             console.log("Playing All Tracks")
             if (trackOneAudio.loop === true) {
-                trackOneAudio.connect(audioCtx.destination)
+                trackOneAudio.connect(globalGain)
                 console.log(trackOneAudio)
             }
             if (trackTwoAudio.loop === true) {
-                trackTwoAudio.connect(audioCtx.destination)
+                trackTwoAudio.connect(globalGain)
             }
             if (trackThreeAudio.loop === true) {
-                trackThreeAudio.connect(audioCtx.destination)
+                trackThreeAudio.connect(globalGain)
             }
             if (trackFourAudio.loop === true) {
-                trackFourAudio.connect(audioCtx.destination)
+                trackFourAudio.connect(globalGain)
             }
             if (trackFiveAudio.loop === true) {
-                trackFiveAudio.connect(audioCtx.destination)
+                trackFiveAudio.connect(globalGain)
             }
         } else if (playAllStatus === true) {
             setPlayAll(false)
             console.log("All Tracks Stopped")
             if (trackOneAudio.loop === true) {
-                trackOneAudio.disconnect(audioCtx.destination)
+                trackOneAudio.disconnect(globalGain)
             }
             if (trackTwoAudio.loop === true) {
-                trackTwoAudio.disconnect(audioCtx.destination)
+                trackTwoAudio.disconnect(globalGain)
             }
             if (trackThreeAudio.loop === true) {
-                trackThreeAudio.disconnect(audioCtx.destination)
+                trackThreeAudio.disconnect(globalGain)
             }
             if (trackFourAudio.loop === true) {
-                trackFourAudio.disconnect(audioCtx.destination)
+                trackFourAudio.disconnect(globalGain)
             }
             if (trackFiveAudio.loop === true) {
-                trackFiveAudio.disconnect(audioCtx.destination)
+                trackFiveAudio.disconnect(globalGain)
             }
         }
-
     }
 
     return (
@@ -86,6 +102,8 @@ export function XenLoop5T() {
                         setTrackTime={setTrackTime}
                         audioCtx={audioCtx}
                         playAll={playAll}
+                        globalGainLevel={globalGainLevel}
+                        setGlobalGainLevel={setGlobalGainLevel}
                     />
                     <Tracks 
                         tracks={fakeDatabase} 
